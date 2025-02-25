@@ -6,7 +6,7 @@ __all__ = (
     "update_user_full_crud",
     "delete_user_crud",
 )
-from crud.user_crud import (
+from crud.user import (
     create_user_crud,
     get_user_by_id_with_tasks_crud,
     get_all_users_with_tasks_pagination_crud,

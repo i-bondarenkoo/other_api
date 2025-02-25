@@ -3,7 +3,7 @@ import uvicorn
 from contextlib import asynccontextmanager
 from database import Base, engine
 import models
-from routers.user_router import router as user_router
+from routers.user import router as user_router
 
 # from routers.task_router import router as task_router
 # from routers.tag_router import router as tag_router

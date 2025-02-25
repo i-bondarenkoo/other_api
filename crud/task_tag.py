@@ -71,20 +71,20 @@
 # # Это может быть полезно, если вам нужно получить полный обзор всех задач с их тегами.
 
 
-# # async def get_all_tasktags_associations(session: AsyncSession = Depends(get_session)):
-# #     stmt = (
-# #         select(TaskOrm, TagOrm)
-# #         .join(
-# #             task_tag_table, TaskOrm.id == task_tag_table.c.task_id
-# #         )  # Связь задач с таблицей связей
-# #         .join(
-# #             TagOrm, TagOrm.id == task_tag_table.c.tag_id
-# #         )  # Связь тегов с таблицей связей
-# #     )
+# async def get_all_tasktags_associations(session: AsyncSession = Depends(get_session)):
+#     stmt = (
+#         select(TaskOrm, TagOrm)
+#         .join(
+#             task_tag_table, TaskOrm.id == task_tag_table.c.task_id
+#         )  # Связь задач с таблицей связей
+#         .join(
+#             TagOrm, TagOrm.id == task_tag_table.c.tag_id
+#         )  # Связь тегов с таблицей связей
+#     )
 
-# #     result = await session.execute(stmt)
-# #     tasktags = result.scalars().all()
-# #     return tasktags
+#     result = await session.execute(stmt)
+#     tasktags = result.scalars().all()
+#     return tasktags
 
 
 # # Проверка существования ассоциации

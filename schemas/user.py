@@ -1,6 +1,12 @@
 from __future__ import annotations
 from pydantic import BaseModel, EmailStr, ConfigDict
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from schemas.task import TaskResponseSchemas
+
+
 
 class UserCreateSchemas(BaseModel):
     first_name: str

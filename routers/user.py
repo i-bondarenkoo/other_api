@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query, Path
-from schemas.user_schemas import (
+from schemas.user import (
     UserResponseWithOutRelationship,
     UserCreateSchemas,
     UserResponseSchemas,

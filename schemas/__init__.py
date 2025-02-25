@@ -11,20 +11,21 @@ __all__ = (
     "UserResponseWithOutRelationship",
     "FullUpdateTagSchemas",
 )
-from schemas.user_schemas import (
+from schemas.tag import (
+    CreateTagSchemas,
+    ResponseTagSchemas,
+    FullUpdateTagSchemas,
+)
+from schemas.task import (
+    TaskCreateSchemas,
+    TaskResponseSchemas,
+    FullUpdateTaskSchemas,
+)
+from schemas.user import (
     UpdateUserPartialSchemas,
     UserCreateSchemas,
     UserResponseSchemas,
     UpdateUserFullSchemas,
     UserResponseWithOutRelationship,
 )
-from schemas.task_schemas import (
-    TaskCreateSchemas,
-    TaskResponseSchemas,
-    FullUpdateTaskSchemas,
-)
-from schemas.tag_schemas import (
-    CreateTagSchemas,
-    ResponseTagSchemas,
-    FullUpdateTagSchemas,
-)
+UserResponseSchemas.model_rebuild()

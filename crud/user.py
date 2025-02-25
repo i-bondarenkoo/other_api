@@ -1,10 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from schemas.user_schemas import (
+from schemas.user import (
     UserCreateSchemas,
     UpdateUserFullSchemas,
     UpdateUserPartialSchemas,
 )
-from models.user_model import UserOrm
+from models.user import UserOrm
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from fastapi import HTTPException

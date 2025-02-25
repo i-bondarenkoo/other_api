@@ -1,6 +1,12 @@
 from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from schemas.user import UserResponseWithOutRelationship
+    from schemas.tag import ResponseTagSchemas
+
 
 class TaskCreateSchemas(BaseModel):
     title: str

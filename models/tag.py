@@ -5,7 +5,7 @@ from models.associations import task_tag_table
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.task_model import TaskOrm
+    from models.task import TaskOrm
 
 
 class TagOrm(Base):
