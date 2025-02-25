@@ -1,21 +1,16 @@
+from sqlalchemy.ext.asyncio import AsyncSession
 from schemas.user_schemas import (
     UserCreateSchemas,
-    UserResponseSchemas,
-    UpdateUserPratialSchemas,
     UpdateUserFullSchemas,
+    UpdateUserPartialSchemas,
 )
-from database import get_session
-from fastapi import Depends, HTTPException
 from models.user_model import UserOrm
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
+from fastapi import HTTPException
 
 
-async def create_user_crud(
-    user: UserCreateSchemas,
-    session: AsyncSession = Depends(get_session),
-    response_model=UserResponseSchemas,
-):
+async def create_user_crud(user: UserCreateSchemas, session: AsyncSession):
     new_user = UserOrm(**user.model_dump())
     session.add(new_user)
     await session.commit()
@@ -23,39 +18,37 @@ async def create_user_crud(
     return new_user
 
 
-async def get_user_by_id_crud(
-    user_id: int,
-    session: AsyncSession = Depends(get_session),
-    response_model=UserResponseSchemas,
-):
-    user = await session.get(UserOrm, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="Пользователь не найден")
-    return user
+async def get_user_by_id_with_tasks_crud(user_id: int, session: AsyncSession):
+    stmt = (
+        select(UserOrm)
+        .where(UserOrm.id == user_id)
+        .options(selectinload(UserOrm.tasks))
+    )
+    result = await session.execute(stmt)
+    user_with_tasks = result.scalars().first()
+    return user_with_tasks
 
 
-async def get_all_users_pagination_crud(
-    start: int,
-    stop: int,
-    session: AsyncSession = Depends(get_session),
-    response_model=list[UserResponseSchemas],
+async def get_all_users_with_tasks_pagination_crud(
+    session: AsyncSession, start=int, stop=int
 ):
-    # LIMIT – ограничивает количество возвращаемых строк
-    # OFFSET – пропускает N первых строк в выборке
     if start >= stop or start < 0:
         raise HTTPException(status_code=400, detail="Неверные значения пагинации")
-
-    stmt = select(UserOrm).offset(start).limit(stop - start)
+    stmt = (
+        select(UserOrm)
+        .offset(start)
+        .limi(stop - start)
+        .options(selectinload(UserOrm.tasks))
+    )
     result = await session.execute(stmt)
-    users = result.scalars().all()
-    return users
+    users_with_tasks = result.scalars().all()
+    return users_with_tasks
 
 
 async def update_user_partial_crud(
-    user: UpdateUserPratialSchemas,
+    user: UpdateUserPartialSchemas,
     user_id: int,
-    session: AsyncSession = Depends(get_session),
-    response_model=UserResponseSchemas,
+    session: AsyncSession,
 ):
     upd_user = await session.get(UserOrm, user_id)
     if not upd_user:
@@ -71,8 +64,7 @@ async def update_user_partial_crud(
 async def update_user_full_crud(
     user: UpdateUserFullSchemas,
     user_id: int,
-    session: AsyncSession = Depends(get_session),
-    response_model=UserResponseSchemas,
+    session: AsyncSession,
 ):
     upd_full_user = await session.get(UserOrm, user_id)
     if not upd_full_user:
@@ -84,7 +76,7 @@ async def update_user_full_crud(
     return upd_full_user
 
 
-async def delete_user_crud(user_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_user_crud(user_id: int, session: AsyncSession):
     user = await session.get(UserOrm, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 
 
@@ -9,7 +10,8 @@ class TaskCreateSchemas(BaseModel):
 
 class TaskResponseSchemas(TaskCreateSchemas):
     id: int
-
+    user: "UserResponseWithOutRelationship"  # Отложенная ссылка через строку
+    tags: list["ResponseTagSchemas"]
     model_config = ConfigDict(from_attributes=True)
 
 

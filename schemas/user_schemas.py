@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pydantic import BaseModel, EmailStr, ConfigDict
 
 
@@ -9,11 +10,16 @@ class UserCreateSchemas(BaseModel):
 
 class UserResponseSchemas(UserCreateSchemas):
     id: int
-
+    tasks: list["TaskResponseSchemas"]
     model_config = ConfigDict(from_attributes=True)
 
 
-class UpdateUserPratialSchemas(BaseModel):
+class UserResponseWithOutRelationship(UserCreateSchemas):
+    id: int
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UpdateUserPartialSchemas(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     email: EmailStr | None = None

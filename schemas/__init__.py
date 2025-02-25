@@ -1,5 +1,5 @@
 __all__ = (
-    "UpdateUserPratialSchemas",
+    "UpdateUserPartialSchemas",
     "UserCreateSchemas",
     "UserResponseSchemas",
     "UpdateUserFullSchemas",
@@ -8,13 +8,15 @@ __all__ = (
     "FullUpdateTaskSchemas",
     "CreateTagSchemas",
     "ResponseTagSchemas",
+    "UserResponseWithOutRelationship",
     "FullUpdateTagSchemas",
 )
 from schemas.user_schemas import (
-    UpdateUserPratialSchemas,
+    UpdateUserPartialSchemas,
     UserCreateSchemas,
     UserResponseSchemas,
     UpdateUserFullSchemas,
+    UserResponseWithOutRelationship,
 )
 from schemas.task_schemas import (
     TaskCreateSchemas,
