@@ -19,9 +19,7 @@ class TaskOrm(Base):
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
 
-    user: Mapped["UserOrm"] = relationship(
-        "UserOrm", back_populates="tasks", lazy="selectin"
-    )
+    user: Mapped["UserOrm"] = relationship("UserOrm", back_populates="tasks")
 
     tags: Mapped[list["TagOrm"]] = relationship(
         "TagOrm", secondary=task_tag_table, back_populates="tasks"

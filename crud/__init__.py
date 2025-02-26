@@ -15,6 +15,7 @@ __all__ = (
     "get_list_tags_and_tasks_crud",
     "update_tag_crud",
     "delete_tag_crud",
+    "check_user_exists",
 )
 from crud.user import (
     create_user_crud,
@@ -23,6 +24,7 @@ from crud.user import (
     update_user_partial_crud,
     update_user_full_crud,
     delete_user_crud,
+    check_user_exists,
 )
 
 from crud.task import (

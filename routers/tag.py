@@ -25,7 +25,7 @@ async def create_tag(
     return await crud.create_tag_crud(tag=tag, session=session)
 
 
-@router.get("/{tag_id}/task-tag", response_model=ResponseTagWithUserAndTask)
+@router.get("/{tag_id}/task-tag", response_model=ResponseTagSchemas)
 async def get_tag_by_id_with_user_and_task(
     tag_id: int, session: AsyncSession = Depends(get_session)
 ):
@@ -34,7 +34,7 @@ async def get_tag_by_id_with_user_and_task(
     )
 
 
-@router.get("/", response_model=ResponseTagSchemas)
+@router.get("/", response_model=list[ResponseTagSchemas])
 async def get_list_tags_and_tasks(session: AsyncSession = Depends(get_session)):
     return await crud.get_list_tags_and_tasks_crud(session=session)
 

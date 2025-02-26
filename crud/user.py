@@ -20,6 +20,14 @@ async def create_user_crud(user: UserCreateSchemas, session: AsyncSession):
     return new_user
 
 
+async def check_user_exists(user_id: int, session: AsyncSession):
+    result = await session.execute(select(UserOrm.id).where(UserOrm.id == user_id))
+    check_user = result.scalars().first()
+    if not check_user:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
+    return check_user
+
+
 async def get_user_by_id_with_tasks_crud(user_id: int, session: AsyncSession):
     stmt = (
         select(UserOrm)

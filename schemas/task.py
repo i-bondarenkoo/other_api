@@ -5,7 +5,6 @@ import typing
 
 if typing.TYPE_CHECKING:
     from schemas.tag import ResponseTagSchemas
-    from schemas.user import UserResponseSchemas, UserResponseWithOutRelationship
 
 
 class TaskCreateSchemas(BaseModel):
@@ -17,19 +16,11 @@ class TaskCreateSchemas(BaseModel):
 class TaskResponseSchemas(TaskCreateSchemas):
     id: int
     tags: list["ResponseTagSchemas"]
-    user: "UserResponseSchemas"
     model_config = ConfigDict(from_attributes=True)
 
 
 class TaskResponseSchemasWithOutRelationship(TaskCreateSchemas):
     id: int
-    user: "UserResponseWithOutRelationship"
-    model_config = ConfigDict(from_attributes=True)
-
-
-class TaskResponseWithUser(TaskCreateSchemas):
-    id: int
-    user: "UserResponseWithOutRelationship"
     model_config = ConfigDict(from_attributes=True)
 
 

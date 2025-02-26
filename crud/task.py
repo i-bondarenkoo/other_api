@@ -4,9 +4,13 @@ from models.task import TaskOrm
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+from crud.user import check_user_exists
 
 
 async def create_task_crud(task: TaskCreateSchemas, session: AsyncSession):
+    user = await check_user_exists(task.user_id, session)
+    if not user:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
     new_task = TaskOrm(**task.model_dump())
     session.add(new_task)
     await session.commit()
@@ -37,6 +41,9 @@ async def get_list_tasks_with_tags_crud(session: AsyncSession):
 async def full_update_task_crud(
     task: FullUpdateTaskSchemas, task_id: int, session: AsyncSession
 ):
+    user = await check_user_exists(task.user_id, session)
+    if not user:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
     task_upd = await session.get(TaskOrm, task_id)
     if not task_upd:
         raise HTTPException(status_code=404, detail="Задача не найдена")
