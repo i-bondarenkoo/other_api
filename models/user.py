@@ -15,4 +15,6 @@ class UserOrm(Base):
     last_name: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
 
-    tasks: Mapped[list["TaskOrm"]] = relationship("TaskOrm", back_populates="user")
+    tasks: Mapped[list["TaskOrm"]] = relationship(
+        "TaskOrm", back_populates="user", cascade="all, delete-orphan", lazy="selectin"
+    )

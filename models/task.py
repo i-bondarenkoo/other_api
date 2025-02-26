@@ -17,9 +17,11 @@ class TaskOrm(Base):
     title: Mapped[str] = mapped_column(String(30))
     description: Mapped[str] = mapped_column(String(100))
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
 
-    user: Mapped["UserOrm"] = relationship("UserOrm", back_populates="tasks")
+    user: Mapped["UserOrm"] = relationship(
+        "UserOrm", back_populates="tasks", lazy="selectin"
+    )
 
     tags: Mapped[list["TagOrm"]] = relationship(
         "TagOrm", secondary=task_tag_table, back_populates="tasks"

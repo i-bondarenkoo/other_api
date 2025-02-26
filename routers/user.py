@@ -32,7 +32,7 @@ async def get_user_by_id_with_tasks(
     return await crud.get_user_by_id_with_tasks_crud(user_id=user_id, session=session)
 
 
-@router.get("/", response_model=UserResponseSchemas)
+@router.get("/", response_model=list[UserResponseSchemas])
 async def get_all_users_pagination_with_tasks(
     start: int = Query(..., description="Начальный индекс"),
     stop: int = Query(..., description="Конечный индекс"),
@@ -61,3 +61,8 @@ async def update_full_user(
     session: AsyncSession = Depends(get_session),
 ):
     return await crud.update_user_full_crud(user=user, user_id=user_id, session=session)
+
+
+@router.delete("/{user_id}")
+async def delete_user(user_id: int, session: AsyncSession = Depends(get_session)):
+    return await crud.delete_user_crud(user_id=user_id, session=session)

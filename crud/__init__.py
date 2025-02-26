@@ -5,6 +5,16 @@ __all__ = (
     "update_user_partial_crud",
     "update_user_full_crud",
     "delete_user_crud",
+    "create_task_crud",
+    "get_task_by_id_with_tags_crud",
+    "get_list_tasks_with_tags_crud",
+    "full_update_task_crud",
+    "delete_task_crud",
+    "create_tag_crud",
+    "get_tag_by_id_with_task_and_user_crud",
+    "get_list_tags_and_tasks_crud",
+    "update_tag_crud",
+    "delete_tag_crud",
 )
 from crud.user import (
     create_user_crud,
@@ -15,12 +25,22 @@ from crud.user import (
     delete_user_crud,
 )
 
-# from crud.task_crud import (
-#     pass
-# )
-# from crud.tag_crud import (
+from crud.task import (
+    create_task_crud,
+    get_task_by_id_with_tags_crud,
+    get_list_tasks_with_tags_crud,
+    full_update_task_crud,
+    delete_task_crud,
+)
 
-# )
+from crud.tag import (
+    create_tag_crud,
+    get_tag_by_id_with_task_and_user_crud,
+    get_list_tags_and_tasks_crud,
+    update_tag_crud,
+    delete_tag_crud,
+)
+
 # from crud.task_tag_crud import (
 #     # add_task_tag_association,
 #     # delete_data_task_tag_association,

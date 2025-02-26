@@ -6,7 +6,7 @@ authors = [
     {name = "Igor Bondarenko",email = "bondarenko200021@mail.ru"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard] (>=0.115.8,<0.116.0)",
     "aiosqlite (>=0.21.0,<0.22.0)",

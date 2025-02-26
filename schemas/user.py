@@ -7,7 +7,6 @@ if typing.TYPE_CHECKING:
     from schemas.task import TaskResponseSchemas
 
 
-
 class UserCreateSchemas(BaseModel):
     first_name: str
     last_name: str

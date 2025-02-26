@@ -1,4 +1,8 @@
 from pydantic import BaseModel, ConfigDict
+import typing
+
+if typing.TYPE_CHECKING:
+    from schemas.task import TaskResponseSchemasWithOutRelationship, TaskResponseSchemas
 
 
 class CreateTagSchemas(BaseModel):
@@ -8,7 +12,19 @@ class CreateTagSchemas(BaseModel):
 class ResponseTagSchemas(BaseModel):
     id: int
     name: str
+    tasks: list["TaskResponseSchemas"]
+    model_config = ConfigDict(from_attributes=True)
 
+
+class ResponseTagWithUserAndTask(BaseModel):
+    id: int
+    name: str
+    tasks: list["TaskResponseSchemasWithOutRelationship"]
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ResponseTagWithOutRelationship(CreateTagSchemas):
+    id: int
     model_config = ConfigDict(from_attributes=True)
 
 

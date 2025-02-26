@@ -3,8 +3,10 @@ from schemas.user import (
     UserCreateSchemas,
     UpdateUserFullSchemas,
     UpdateUserPartialSchemas,
+    UserResponseSchemas,
 )
 from models.user import UserOrm
+from models.task import TaskOrm
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from fastapi import HTTPException
@@ -22,10 +24,12 @@ async def get_user_by_id_with_tasks_crud(user_id: int, session: AsyncSession):
     stmt = (
         select(UserOrm)
         .where(UserOrm.id == user_id)
-        .options(selectinload(UserOrm.tasks))
+        .options(selectinload(UserOrm.tasks).selectinload(TaskOrm.tags))
     )
     result = await session.execute(stmt)
     user_with_tasks = result.scalars().first()
+    if not user_with_tasks:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
     return user_with_tasks
 
 
@@ -37,12 +41,14 @@ async def get_all_users_with_tasks_pagination_crud(
     stmt = (
         select(UserOrm)
         .offset(start)
-        .limi(stop - start)
-        .options(selectinload(UserOrm.tasks))
+        .limit(stop - start)
+        .options(selectinload(UserOrm.tasks).selectinload(TaskOrm.tags))
     )
     result = await session.execute(stmt)
-    users_with_tasks = result.scalars().all()
-    return users_with_tasks
+    users_with_tasks_pagination = result.scalars().all()
+    if not users_with_tasks_pagination:
+        raise HTTPException(status_code=404, detail="Пользователи не найдены")
+    return users_with_tasks_pagination
 
 
 async def update_user_partial_crud(
